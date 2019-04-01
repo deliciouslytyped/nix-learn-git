@@ -1,17 +1,12 @@
-#a shell
-#TODO clean stuff up a bit, make user friendly, move random files into workdir
 #TODO consider rewrite with tmuxp
 #TODO compare other git repl tools
 #some tools
 #start tmux setup on shell enter
 #ooor..wait for user to init watches
-#TODO PDF
-#TODO pinning
-#TODO download and open the pro-git book
-#TODO maybe try feh from unstable	
-#TODO activation script for tmuxinator because it doesnt support relative paths
+#TODO pinning, maybe try feh from unstable	#TODO id use feh if i could get it to not break
+#TODO activation script for tmuxinator because it doesnt support relative paths / try ERB + CLI cwd path?
 {stdenv, lib, writeText, writeShellScriptBin,  mkShell, tmuxinator, tmux, okular, feh, graphviz,
-python37Packages, fetchFromGitHub, inotify-tools, meld, gitAndTools, bashInteractive, evince}: #TODO id use feh if i could get it to not break
+python37Packages, fetchFromGitHub, inotify-tools, meld, gitAndTools, bashInteractive, evince}: 
   let
     root = toString ./.;
     workdir = "${root}/workdir";
@@ -112,6 +107,15 @@ python37Packages, fetchFromGitHub, inotify-tools, meld, gitAndTools, bashInterac
     attach-learn = writeShellScriptBin "attach-learn" ''
       tmux -S '${workdir}/socket' attach -t learn-git 
       '';
+
+#    book = fetchUrl {
+#      url = "";
+#      sha256 = "";
+#      };
+
+#    open-book = writeShellScriptBin "open-book" ''
+#      evince ${book}
+#      '';
   in
     mkShell {
       buildInputs = [ tmux tmuxinator ] ++ #bashInteractive ] ++
